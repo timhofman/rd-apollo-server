@@ -51,7 +51,7 @@ const resolvers = {
     },
     Book: {
         author : (parent) => {
-            return authors.filter(author => author.id === parent.author)
+            return authors.filter(author => author.id === parent.author)[0]
         } 
     },
 };
