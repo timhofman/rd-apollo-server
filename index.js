@@ -31,7 +31,7 @@ const resolvers = {
         getAuthors: () => authors
     },
     Mutation: {
-        addBook(parent, args) {
+        addBook : (parent, args) => {
             const newBook = {
                 id: Number(args.book.id),
                 title: args.book.title,
@@ -47,7 +47,7 @@ const resolvers = {
         },
     },
     Book: {
-        author(parent) {
+        author : (parent) => {
             return authors.filter(author => author.id === parent.author)
         } 
     },
