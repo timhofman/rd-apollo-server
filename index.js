@@ -3,13 +3,13 @@ const { ApolloServer, gql } = require('apollo-server');
 const typeDefs = gql`
     type Book {
         id: ID!,
-        title: String
+        title: String!
         author: [Author]
     }
 
     type Author {
         id: ID!,
-        name: String
+        name: String!
         books: [Book]
     }
 
@@ -19,7 +19,13 @@ const typeDefs = gql`
     }
 
     type Mutation {
-        addBook(title: String!, author: String): Book
+        addBook(book: BookInput): Book
+    }
+
+    input BookInput {
+        id: ID!
+        title: String!
+        author: String!
     }
 `;
 
@@ -54,7 +60,14 @@ const resolvers = {
     },
     Mutation: {
         addBook(parent, args) {
-            books.push(args);
+            console.log(args);
+            books.push({
+                id: Number(args.book.id),
+                title: args.book.title,
+                author: args.book.author
+            });
+            console.log(books);
+            return books;
         },
     },
     Book: {
