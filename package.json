@@ -19,6 +19,7 @@
   "homepage": "https://github.com/timhofman/rd-apollo-server#readme",
   "dependencies": {
     "apollo-server": "^2.9.7",
-    "graphql": "^14.5.8"
+    "graphql": "^14.5.8",
+    "graphql-import": "^0.7.1"
   }
 }
