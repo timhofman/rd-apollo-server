@@ -60,14 +60,13 @@ const resolvers = {
     },
     Mutation: {
         addBook(parent, args) {
-            console.log(args);
-            books.push({
+            const newBook = {
                 id: Number(args.book.id),
                 title: args.book.title,
                 author: args.book.author
-            });
-            console.log(books);
-            return books;
+            };
+            books.push(newBook);
+            return newBook;
         },
     },
     Book: {
