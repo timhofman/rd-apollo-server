@@ -43,6 +43,7 @@ const resolvers = {
         updateBook : (parent, args) => {
             const book = books.filter(book => book.id === args.id);
             book[0].title = args.title;
+            return book[0];
         },
     },
     Book: {
