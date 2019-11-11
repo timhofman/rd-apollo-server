@@ -40,6 +40,10 @@ const resolvers = {
             books.push(newBook);
             return newBook;
         },
+        updateBook : (parent, args) => {
+            const book = books.filter(book => book.id === args.id);
+            book[0].title = args.title;
+        },
     },
     Book: {
         author(parent) {

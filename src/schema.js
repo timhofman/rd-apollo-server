@@ -20,6 +20,7 @@ const typeDefs = gql`
 
     type Mutation {
         addBook(book: BookInput): Book
+        updateBook(id: Int, title: String!): Book
     }
 
     input BookInput {
