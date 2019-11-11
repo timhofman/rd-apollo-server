@@ -2,6 +2,8 @@ const { ApolloServer, gql } = require('apollo-server');
 const typeDefs = require('./src/schema');
 const casual = require('casual');
 
+const { MockList } = require('apollo-server');
+
 const books = [
     {
         id: 1,
@@ -59,21 +61,18 @@ const resolvers = {
  * To use this make sure that mockEntireSchema is set to 'true'
  */
 const mocks = {
-    Query: () => ({
-        getBooks: () => ([
-            {
-                id: casual.integer(1,10000),
-                title: casual.name,
-            },
-            {
-                id: casual.integer(1,10000),
-                title: casual.name,
-            }
-        ]),
-    })
+    Book: () => ({
+        id: () => casual.integer(1,10000),
+        title: () => casual.name,
+        author: () => new MockList([1,1]),
+    }),
+    Author: () => ({
+        id: () => casual.integer(1,10000),
+        name: () => casual.name,
+    }),
 }
 
-const server = new ApolloServer({ typeDefs, resolvers, mocks, mockEntireSchema: false});
+const server = new ApolloServer({ typeDefs, resolvers, mocks: mocks, mockEntireSchema: false });
 server.listen(5000).then(( { url }) => {
     console.log(`Server ready at ${url}`);
 });
