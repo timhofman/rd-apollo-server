@@ -1,6 +1,8 @@
-const { ApolloServer, gql } = require('apollo-server');
+const { ApolloServer, gql, AuthenticationError } = require('apollo-server');
 const typeDefs = require('./src/schema');
 const casual = require('casual');
+const { APP_SECRET, authenticate } = require('./lib/authentication')
+
 
 const { MockList } = require('apollo-server');
 
@@ -47,7 +49,7 @@ const resolvers = {
             const book = books.filter(book => book.id === args.id);
             book[0].title = args.title;
             return book[0];
-        },
+        }
     },
     Book: {
         author : (parent) => {
@@ -72,7 +74,17 @@ const mocks = {
     }),
 }
 
-const server = new ApolloServer({ typeDefs, resolvers, mocks: mocks, mockEntireSchema: false });
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: ({ req }) => {
+        if (!authenticate(req)) {
+            throw new AuthenticationError('Your token is not valid.');
+        }
+    },
+    mocks: mocks,
+    mockEntireSchema: false
+});
 server.listen(5000).then(( { url }) => {
     console.log(`Server ready at ${url}`);
 });
