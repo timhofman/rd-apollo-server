@@ -10,6 +10,8 @@ import typeDefs from './src/schema';
 import casual from 'casual';
 import { APP_SECRET, authenticate } from './lib/authentication';
 
+require('dotenv').config();
+
 const books = [
     {
         id: 1,
@@ -137,7 +139,11 @@ const server = new ApolloServer({
     schemaDirectives: {
         length: LengthDirective,
     },
-    tracing: true
+    tracing: true,
+    engine: {
+        apiKey: process.env.ENGINE_API_KEY,
+        schemaTag: "dev"
+    }
 });
 
 server.applyMiddleware({ app });

@@ -2,6 +2,7 @@ const { gql } = require('apollo-server');
 
 const typeDefs = gql`
     directive @length(max: Int) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+    scalar LengthAtMost25
 
     type Book {
         id: ID!,
