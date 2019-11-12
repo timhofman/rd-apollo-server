@@ -1,7 +1,9 @@
 import express from 'express';
 import http from 'http';
+import assert from 'chai';
 import bodyParser from 'body-parser';
-import { ApolloServer, gql, AuthenticationError, MockList } from 'apollo-server-express';
+import { ApolloServer, gql, AuthenticationError, MockList, SchemaDirectiveVisitor } from 'apollo-server-express';
+import { GraphQLScalarType, GraphQLNonNull } from 'graphql';
 
 import typeDefs from './src/schema';
 import casual from 'casual';
@@ -75,6 +77,52 @@ const mocks = {
     }),
 }
 
+class LengthDirective extends SchemaDirectiveVisitor {
+    visitInputFieldDefinition(field) {
+        this.wrapType(field);
+    }
+
+    visitFieldDefinition(field) {
+        this.wrapType(field);
+    }
+
+    wrapType(field) {
+        console.log(field);
+        if (
+            field.type instanceof GraphQLNonNull &&
+            field.type.ofType instanceof GraphQLScalarType
+          ) {
+            field.type = new GraphQLNonNull(
+              new LimitedLengthType(field.type.ofType, this.args.max),
+            );
+          } else if (field.type instanceof GraphQLScalarType) {
+            field.type = new LimitedLengthType(field.type, this.args.max);
+          } else {
+            throw new Error(`Not a scalar type: ${field.type}`);
+          }
+    }
+}
+
+class LimitedLengthType extends GraphQLScalarType {
+    constructor(type, maxLength) {
+        super({
+            name: `LengthAtMost${maxLength}`,
+
+            serialize(value) {
+              value = type.serialize(value);
+              assert.assert.isAtMost(value.length, maxLength);
+              return value;
+            },
+            parseValue(value) {
+              return type.parseValue(value);
+            },
+            parseLiteral(ast) {
+              return type.parseLiteral(ast);
+            },
+        });
+    }
+}
+
 const app = express();
 const server = new ApolloServer({
     typeDefs,
@@ -85,7 +133,10 @@ const server = new ApolloServer({
         }
     },
     mocks: mocks,
-    mockEntireSchema: false
+    mockEntireSchema: false,
+    schemaDirectives: {
+        length: LengthDirective,
+    },
 });
 
 server.applyMiddleware({ app });
