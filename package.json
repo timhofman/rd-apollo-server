@@ -20,6 +20,7 @@
   "homepage": "https://github.com/timhofman/rd-apollo-server#readme",
   "dependencies": {
     "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
     "apollo-server": "^2.9.7",
     "casual": "^1.6.2",
     "graphql": "^14.5.8",
@@ -29,7 +30,6 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
     "babel-watch": "^7.0.0"
   }
 }
