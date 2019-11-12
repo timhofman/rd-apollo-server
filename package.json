@@ -25,6 +25,7 @@
     "apollo-server-express": "^2.9.7",
     "casual": "^1.6.2",
     "chai": "^4.2.0",
+    "dotenv": "^8.2.0",
     "graphql": "^14.5.8",
     "graphql-import": "^0.7.1",
     "jslint": "^0.12.1",
