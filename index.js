@@ -1,10 +1,11 @@
-const { ApolloServer, gql, AuthenticationError } = require('apollo-server');
-const typeDefs = require('./src/schema');
-const casual = require('casual');
-const { APP_SECRET, authenticate } = require('./lib/authentication')
+import express from 'express';
+import http from 'http';
+import bodyParser from 'body-parser';
+import { ApolloServer, gql, AuthenticationError, MockList } from 'apollo-server-express';
 
-
-const { MockList } = require('apollo-server');
+import typeDefs from './src/schema';
+import casual from 'casual';
+import { APP_SECRET, authenticate } from './lib/authentication';
 
 const books = [
     {
@@ -74,6 +75,7 @@ const mocks = {
     }),
 }
 
+const app = express();
 const server = new ApolloServer({
     typeDefs,
     resolvers,
@@ -85,6 +87,16 @@ const server = new ApolloServer({
     mocks: mocks,
     mockEntireSchema: false
 });
-server.listen(5000).then(( { url }) => {
-    console.log(`Server ready at ${url}`);
+
+server.applyMiddleware({ app });
+app.use('/', (req, res) => {
+    res.header('Content-Type', 'text/plain; charset=utf-8')
+    res.write('Hello World');
+    res.end();
+});
+
+const httpServer = http.createServer(app);
+const PORT = 5000;
+httpServer.listen(PORT, () => {
+    console.log(`Server ready at http://localhost:${PORT}${server.subscriptionsPath}`);
 });
