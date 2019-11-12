@@ -1,5 +1,10 @@
 const { gql } = require('apollo-server');
 
+/**
+ * The 'LenghtAtMost25' must be declared, even while it's generated on the fly
+ * by our custom LengthDirective implementation. Otherwise tools like the performance
+ * tracer can't do a full introspective of the GraphQL schema.
+ */
 const typeDefs = gql`
     directive @length(max: Int) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
     scalar LengthAtMost25
