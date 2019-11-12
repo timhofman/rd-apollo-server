@@ -7,3 +7,13 @@ The server will automatically restart when making changes to any of the underlyi
 ```
 npm run dev
 ```
+
+# 2. Play around with performance
+If you want to track the performance of all GraphQL queries, mutations etc.
+Run the following commands while running the GraphQL server.
+
+```
+npx apollo service:push
+```
+
+The credentials that are being used can be found in the .env file within the project root.

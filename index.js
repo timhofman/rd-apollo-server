@@ -136,7 +136,8 @@ const server = new ApolloServer({
     mockEntireSchema: false,
     schemaDirectives: {
         length: LengthDirective,
-    }
+    },
+    tracing: true
 });
 
 server.applyMiddleware({ app });
