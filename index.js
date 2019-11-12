@@ -2,6 +2,7 @@ import express from 'express';
 import http from 'http';
 import assert from 'chai';
 import bodyParser from 'body-parser';
+import * as dotenv from 'dotenv'
 import { ApolloServer, gql, AuthenticationError, MockList, SchemaDirectiveVisitor } from 'apollo-server-express';
 import { GraphQLScalarType, GraphQLNonNull } from 'graphql';
 
@@ -87,7 +88,6 @@ class LengthDirective extends SchemaDirectiveVisitor {
     }
 
     wrapType(field) {
-        console.log(field);
         if (
             field.type instanceof GraphQLNonNull &&
             field.type.ofType instanceof GraphQLScalarType
@@ -136,7 +136,7 @@ const server = new ApolloServer({
     mockEntireSchema: false,
     schemaDirectives: {
         length: LengthDirective,
-    },
+    }
 });
 
 server.applyMiddleware({ app });
