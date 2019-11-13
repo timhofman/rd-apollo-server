@@ -23,6 +23,7 @@
     "@babel/preset-env": "^7.7.1",
     "apollo-server": "^2.9.7",
     "apollo-server-express": "^2.9.7",
+    "braces": "^3.0.2",
     "casual": "^1.6.2",
     "chai": "^4.2.0",
     "dotenv": "^8.2.0",
