@@ -20,6 +20,7 @@
   "homepage": "https://github.com/timhofman/rd-apollo-server#readme",
   "dependencies": {
     "@babel/core": "^7.7.2",
+    "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/preset-env": "^7.7.1",
     "@babel/runtime": "^7.7.2",
     "apollo-server": "^2.9.7",
