@@ -24,7 +24,7 @@
     "@babel/preset-env": "^7.7.1",
     "@babel/runtime": "^7.7.2",
     "apollo-server": "^2.9.7",
-    "apollo-server-express": "^2.9.7",
+    "apollo-server-express": "^2.14.2",
     "apollo-server-testing": "^2.9.9",
     "babel-jest": "^24.9.0",
     "braces": "^3.0.2",
